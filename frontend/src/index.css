@@ -1,0 +1,222 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gold: #d4af37;
+  --gold-glow: rgba(212, 175, 55, 0.4);
+  --accent: #d4af37; 
+  --accent-glow: rgba(212, 175, 55, 0.2);
+  --success: #10b981;
+}
+
+.dark {
+  --bg-primary: #030712;
+  --bg-secondary: #0f172a;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --input-bg: rgba(15, 23, 42, 0.5);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --nav-bg: linear-gradient(135deg, #1e293b 0%, #030712 100%);
+  --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+.light {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --input-bg: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --nav-bg: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+  --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
+@layer base {
+  body {
+    @apply transition-colors duration-300 font-sans antialiased min-h-screen text-base;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    background-image: 
+      radial-gradient(circle at 100% 0%, var(--accent-glow) 0%, transparent 40%),
+      radial-gradient(circle at 0% 100%, var(--gold-glow) 0%, transparent 40%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply transition-colors duration-300;
+    color: var(--text-primary);
+  }
+
+  div, section, nav, footer, input, select, textarea {
+    border-color: var(--border-color);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   "NUCLEAR" LIGHT THEME NORMALIZATION (FIXES RECENT REGRESSIONS)
+   ══════════════════════════════════════════════════════════════════ */
+
+/* 1. Target ALL possible dark color references in classes (bg, from, to, via, border) */
+.light [class*="slate-"],
+.light [class*="gray-9"], .light [class*="gray-8"], .light [class*="gray-7"],
+.light [class*="zinc-"],
+.light [class*="neutral-"],
+.light [class*="dark-bg"],
+.light [class*="card-bg"],
+.light [class*="black"],
+.light .bg-white,
+.light [class*="bg-blue-9"], .light [class*="bg-indigo-9"], .light [class*="bg-purple-9"] {
+  /* Force conversion to light mode variables */
+  background-color: var(--bg-secondary) !important;
+  background-image: none !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Ensure the absolute main containers stay as the primary light background */
+.light .min-h-screen, 
+.light body,
+.light [class*="bg-dark-bg"]:not(.card) {
+  background-color: var(--bg-primary) !important;
+}
+
+/* 2. Fix Text Visibility for the newly normalized cards */
+.light .text-white,
+.light [class*="text-white"],
+.light [class*="text-slate-1"], .light [class*="text-slate-2"], .light [class*="text-slate-3"],
+.light [class*="text-gray-1"], .light [class*="text-gray-2"], .light [class*="text-gray-3"] {
+  color: var(--text-primary) !important;
+}
+
+.light .text-slate-400, .light .text-slate-500, .light .text-slate-600,
+.light [class*="text-slate-4"], .light [class*="text-slate-5"], .light [class*="text-slate-6"],
+.light [class*="text-gray-4"], .light [class*="text-gray-5"], .light [class*="text-gray-6"] {
+  color: var(--text-secondary) !important;
+}
+
+/* 3. Exempt specific brand/functional elements from normalization */
+.light .bg-gold, .light .text-gold {
+  background-color: var(--gold) !important;
+  color: #030712 !important;
+}
+
+.light .text-gold:not(.bg-gold) {
+  background-color: transparent !important;
+  color: var(--gold) !important;
+}
+
+/* Special fix for "Victory" Shimmer and Clip-Text */
+.light .bg-clip-text {
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  background-image: linear-gradient(90deg, #b8860b, #d4af37, #ffffff, #d4af37, #b8860b) !important;
+  background-size: 200% auto !important;
+  animation: shimmer 4s linear infinite !important;
+  visibility: visible !important;
+}
+
+/* Pulse Fix (The circular glows) */
+.light .animate-pulse {
+  background-color: rgba(212, 175, 55, 0.2) !important;
+  background-image: none !important;
+}
+
+/* 4. Button & Interaction Calibration */
+.btn-primary {
+  background-color: var(--gold);
+  color: #030712 !important;
+  @apply px-6 py-3 rounded-xl font-bold active:scale-95 transition-all shadow-lg hover:shadow-xl uppercase tracking-widest text-xs;
+  background-image: none !important;
+}
+
+.btn-primary * {
+  color: #030712 !important;
+}
+
+.btn-secondary {
+  @apply px-6 py-3 rounded-xl border-2 border-gold text-gold font-bold hover:bg-gold hover:text-dark-bg active:scale-95 transition-all uppercase tracking-widest text-xs;
+}
+
+.light .btn-secondary:hover {
+  color: #030712 !important;
+}
+
+/* 5. Specific Dashboard Component Fixes (Scout's Profile View) */
+.light .card {
+  background-color: var(--bg-secondary) !important;
+  box-shadow: 0 4px 20px -5px var(--shadow-color) !important;
+}
+
+/* Ensure icons in dark circles are visible */
+.light [class*="bg-white/5"], .light [class*="bg-gold/5"], .light [class*="bg-blue-400/10"] {
+  background-color: #f1f5f9 !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Form Controls (Light Mode) */
+.light input, .light select, .light textarea {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: var(--text-primary) !important;
+}
+
+/* Form Controls (Dark Mode Safety Net) */
+.dark input:not(.btn-primary), .dark select, .dark textarea {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.light ::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   CORE STYLES
+   ══════════════════════════════════════════════════════════════════ */
+
+.card {
+  @apply backdrop-blur-xl rounded-[2.5rem] p-10 transition-all duration-500;
+  background-color: var(--glass-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 25px 50px -12px var(--shadow-color);
+}
+
+.input-field {
+  @apply w-full px-6 py-4 rounded-2xl border-2 transition-all duration-300 outline-none font-medium;
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.input-field:focus {
+  @apply border-gold ring-4 ring-gold ring-opacity-20 scale-[1.01];
+  background-color: var(--bg-secondary);
+}
+
+.bg-gradient-sport {
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px);
+}
+
+@keyframes shimmer {
+  to { background-position: 200% center; }
+}
+.animate-shimmer {
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+}
+
+::-webkit-scrollbar {
+  @apply w-1.5;
+}
+::-webkit-scrollbar-track {
+  background-color: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-400/30 rounded-full hover:bg-slate-400/50 transition-colors;
+}
